@@ -1,12 +1,15 @@
-package com.h2;
+import com.h2.BestLoanRates;
+import com.h2.MortgageCalculator;
+import com.h2.SavingsCalculator;
 
+import java.util.Arrays;
 import java.util.Map;
 
 public class Finance {
     public static final String BEST_LOAN_RATES = "bestLoanRates";
     public static final String SAVINGS_CALCULATOR = "savingCalculator";
     public static final String MORTGAGE_CALCULATOR = "mortgageCalculator";
-    public static final Map<String, String> commandsToUse = Map.of(
+    public static final Map<String, String> commandsToUsage = Map.of(
             BEST_LOAN_RATES, "usage: bestLoanRates",
             SAVINGS_CALCULATOR, "usage: savingsCalculator <credits separated by ','> <debits separated by ','>",
             MORTGAGE_CALCULATOR, "usage: mortgageCalculator <loanAmount> <termInYears> <annualRate>"
@@ -44,14 +47,18 @@ public class Finance {
 
     public static void main(String[] args) {
         String command = args[0];
-        boolean isValidCommand = validateCommandArguments(args);
-        
-        if (!(commandsToUse.containsKey(command))){
+
+        if (!commandsToUsage.containsKey(command)){
             System.out.println(command + ": command not found");
             return;
-
-        }else {
-
         }
+
+        boolean isValidCommand = validateCommandArguments(args);
+        if (!isValidCommand){
+            System.out.println(commandsToUsage.get(args[0]));
+            return;
+        }
+
+        executeCommand(command, Arrays.copyOfRange(args, 1, args.length));
     }
 }
