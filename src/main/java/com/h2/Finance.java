@@ -13,9 +13,45 @@ public class Finance {
     );
 
     private static boolean validateCommandArguments(String[] args){
-        switch (args){
-            
+        switch (args[0]){
+            case BEST_LOAN_RATES:
+                return args.length == 1;
+            case SAVINGS_CALCULATOR:
+                return args.length == 3;
+            case MORTGAGE_CALCULATOR:
+                return args.length == 4;
         }
         return false;
+    }
+
+    private static void  executeCommand(String command, String[] arguments){
+        switch (command){
+            case BEST_LOAN_RATES:
+                System.out.println("Finding best loan rates ...");
+                BestLoanRates.main(arguments);
+                return;
+            case SAVINGS_CALCULATOR:
+                System.out.println("Finding your net savings ...");
+                SavingsCalculator.main(arguments);
+                return;
+            case MORTGAGE_CALCULATOR:
+                System.out.println("Finding your monthly payment ...");
+                MortgageCalculator.main(arguments);
+                return;
+
+        }
+    }
+
+    public static void main(String[] args) {
+        String command = args[0];
+        boolean isValidCommand = validateCommandArguments(args);
+        
+        if (!(commandsToUse.containsKey(command))){
+            System.out.println(command + ": command not found");
+            return;
+
+        }else {
+
+        }
     }
 }
